@@ -21,22 +21,14 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="planet">Planet :</label>
-            <select name="planet" class="custom-select" id="planet">
-                <option value="{{beast.id_planet}}" selected>{{beast.planet_name}}</option>
-                {% for planet in planets %}
-                <option value="{{planet.id}}">{{planet.name}}</option>
-                {% endfor %}
-            </select>
+            <label for="lanet">Planet :</label>
+            <input type="hidden" class="form-control" name="id_planet" value={{beast.id_planet}} />
+            <input type="text" class="form-control" name="planet" id="planet" value={{beast.planet_name}} />
         </div>
         <div class="form-group col-md-6">
-            <label for="movies">Movie :</label>
-            <select name="movie" class="custom-select" id="movies">
-                <option value="{{beast.id_movie}}" selected>{{beast.movie_title}}</option>
-                {% for movie in movies %}
-                <option value="{{movie.id}}">{{movie.title}}</option>
-                {% endfor %}
-            </select>
+            <label for="movie">Movie :</label>
+            <input type="hidden" class="form-control" name="id_movie" value={{beast.id_movie}} />
+            <textarea class="form-control" name="movie" id="movie">{{beast.movie_title}}</textarea>
         </div>
     </div>
     <div class="form-row">
