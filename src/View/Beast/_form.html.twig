@@ -1,39 +1,40 @@
 <form method="post">
     <div class="form-row">
+            <input type="hidden" class="form-control" name="id" value="{{detailBeasts.id}}">
         <div class="form-group col-md-6">
             <label for="title">Name :</label>
-            <input type="text" class="form-control" name="name">
+            <input type="text" class="form-control" name="name" value="{{detailBeasts.name}}">
         </div>
         <div class="form-group col-md-6">
             <label for="area">Area :</label>
-            <input type="text" class="form-control" name="area">
+            <input type="text" class="form-control" name="area" value="{{detailBeasts.area}}">
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="area">Picture :</label>
-            <input type="url" class="form-control" name="picture" id="picture"/>
+            <input type="url" class="form-control" name="picture" id="picture" value="{{detailBeasts.picture}}"/>
         </div>
         <div class="form-group col-md-6">
             <label for="size">Size (in meter):</label>
-            <input type="text" class="form-control" name="size" id="size"/>
+            <input type="text" class="form-control" name="size" id="size" value="{{detailBeasts.size}}"/>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="planet">Planet :</label>
             <select name="planet" class="custom-select" id="planet">
-                <option value="Planet">Planet name</option>
-                <option value="Planet">Planet name</option>
-                <option value="Planet">Planet name</option>
+                {% for planet in planets %}
+                    <option value={{planet.id}}>{{ planet.name }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="form-group col-md-6">
             <label for="movies">Movie :</label>
             <select name="movie" class="custom-select" id="movies">
-                <option value="Movie">Movie title</option>
-                <option value="Movie">Movie title</option>
-                <option value="Movie">Movie title</option>
+                {% for movie in movies %}
+                    <option value={{movie.id}}>{{movie.title}}</option>
+                {% endfor %}
             </select>
         </div>
     </div>
