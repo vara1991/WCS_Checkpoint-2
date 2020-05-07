@@ -4,6 +4,8 @@
 namespace App\Controller;
 
 use App\Model\BeastManager;
+use App\Model\MovieManager;
+use App\Model\PlanetManager;
 
 /**
  * Class BeastController
@@ -36,9 +38,16 @@ class BeastController extends AbstractController
      */
     public function details(int $id)  : string
     {
-      // TODO : A page which displays all details of a specific beasts.
+        $beastsManager = new BeastManager();
+        $beasts = $beastsManager->selectOneById($id);
 
-        return $this->twig->render('Beast/details.html.twig');
+        $beastsManager = new BeastManager();
+        $movPlan = $beastsManager->selectPlanetMovie($id);
+
+        return $this->twig->render('Beast/details.html.twig', [
+            'beasts' => $beasts,
+            'movPlan' => $movPlan
+        ]);
     }
 
 
@@ -50,9 +59,28 @@ class BeastController extends AbstractController
      */
     public function add()  : string
     {
-      // TODO : A creation page where your can add a new beast.
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST)) {
+                $beastsManager = new BeastManager();
+                $beast['name'] = $_POST['name'];
+                $beast['area'] = $_POST['area'];
+                $beast['picture'] = $_POST['picture'];
+                $beast['size'] = $_POST['size'];
+                $beast['id_planet'] = $_POST['planet'];
+                $beast['id_movie'] = $_POST['movie'];
+                $beastsManager->insert($beast);
+            }
+        }
+        $beastsManager = new PlanetManager();
+        $planets = $beastsManager->selectAll();
 
-        return $this->twig->render('Beast/add.html.twig');
+        $beastsManager = new MovieManager();
+        $movies = $beastsManager->selectAll();
+
+        return $this->twig->render('Beast/add.html.twig',[
+            'planets' => $planets,
+            'movies' => $movies
+        ]);
     }
 
 
@@ -64,7 +92,32 @@ class BeastController extends AbstractController
      */
     public function edit(int $id) : string
     {
-      // TODO : An edition page where your can edit a beast.
-        return $this->twig->render('Beast/edit.html.twig');
+        $beastsManager = new PlanetManager();
+        $planets = $beastsManager->selectAll();
+
+        $beastsManager = new MovieManager();
+        $movies = $beastsManager->selectAll();
+
+        $beastsManager = new BeastManager();
+        $beast = $beastsManager->selectOneById($id);
+
+        $beastsManager = new BeastManager();
+        $movPlan = $beastsManager->selectPlanetMovie($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST)) {
+                $beast['planet'] = $_POST['planet'];
+                $beast['movie'] = $_POST['movie'];
+                $beastsManager->update($beast);
+            }
+            header('Location: /Beast/list');
+        }
+
+        return $this->twig->render('Beast/edit.html.twig', [
+            'beasts' => $beast,
+            'movPlan' => $movPlan,
+            'planets' => $planets,
+            'movies' => $movies
+        ]);
     }
 }
