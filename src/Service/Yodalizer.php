@@ -10,7 +10,15 @@ class Yodalizer
 
     public static function yodalizeIt(string $str):string
     {
-        //TODO Write your code here,
-        //TODO And return what we are waiting for at the end...
+        $string = "Je suis le padawan Jimmy";
+        function yodalizeIt($param){
+
+            $result = explode(' ',$param);
+            $reverse = array_reverse($result);
+            $sentence = implode(' ', $reverse);
+            echo $sentence;
+        }
+        return(yodalizeIt($string));
     }
-}
+
+return(yodalizeIt($string));
