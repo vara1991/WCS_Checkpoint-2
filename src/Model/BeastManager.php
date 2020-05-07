@@ -31,7 +31,7 @@ class BeastManager extends AbstractManager
         parent::__construct(self::TABLE);
     }
 
-    public function selectOneById(int $id)
+    public function selectOneById($id)
     {
         // prepared request
         $statement = $this->pdo->prepare(
@@ -78,6 +78,14 @@ class BeastManager extends AbstractManager
         if ($statement->execute()) {
             return (int)$this->pdo->lastInsertId();
         }
+    }
+
+    public function delete($id): void
+    {
+        // prepared request
+        $statement = $this->pdo->prepare("DELETE FROM " . self::TABLE . " WHERE id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        $statement->execute();
     }
 
 }

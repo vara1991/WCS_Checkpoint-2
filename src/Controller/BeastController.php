@@ -88,11 +88,16 @@ class BeastController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function edit(int $id) : string
+    public function edit($id) : string
     {
-      // TODO : An edition page where your can edit a beast.
+        // TODO : An edition page where your can edit a beast.
         $beastsManager = new BeastManager();
         $detailBeasts = $beastsManager->selectOneById($id);
+
+        if (isset($_POST['delete'])) {
+            $deleteBeasts = $beastsManager->delete($id);
+            header('Location:/beast/list');
+        }
 
         $planetManager = new PlanetManager();
         $planets = $planetManager->selectAll();
@@ -100,26 +105,29 @@ class BeastController extends AbstractController
         $movieManager = new MovieManager();
         $movies = $movieManager->selectAll();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $detailBeasts = [
-                'id' => $_POST['id'],
-                'name' => $_POST['name'],
-                'area' => $_POST['area'],
-                'picture' => $_POST['picture'],
-                'size' => $_POST['size'],
-                'planet' => $_POST['planet'],
-                'movie' => $_POST['movie']
-            ];
-            $beastsManager->update($detailBeasts);
-            header('Location:/beast/details/' . $id);
+        if (!isset($_POST['delete'])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $detailBeasts = [
+                    'id' => $_POST['id'],
+                    'name' => $_POST['name'],
+                    'area' => $_POST['area'],
+                    'picture' => $_POST['picture'],
+                    'size' => $_POST['size'],
+                    'planet' => $_POST['planet'],
+                    'movie' => $_POST['movie']
+                ];
+
+                $beastsManager->update($detailBeasts);
+                header('Location:/beast/details/' . $id);
+            }
+
         }
 
+            return $this->twig->render('Beast/edit.html.twig', [
+                'detailBeasts' => $detailBeasts,
+                'planets' => $planets,
+                'movies' => $movies,
+            ]);
 
-        return $this->twig->render('Beast/edit.html.twig', [
-            'detailBeasts' => $detailBeasts,
-            'planets' => $planets,
-            'movies' => $movies,
-        ]);
     }
-
 }
