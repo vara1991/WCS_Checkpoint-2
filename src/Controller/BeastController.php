@@ -19,7 +19,7 @@ class BeastController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function list() : string
+    public function list(): string
     {
         $beastsManager = new BeastManager();
         $beasts = $beastsManager->selectAll();
@@ -34,13 +34,22 @@ class BeastController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function details(int $id)  : string
+    public function details(int $id): string
     {
-      // TODO : A page which displays all details of a specific beasts.
+        // TODO : A page which displays all details of a specific beasts.
+        $beastsManager = new BeastManager();
+        $beasts = $beastsManager->selectOneById($id);
+        $movies = $beastsManager->movie();
+        $planets = $beastsManager->planet();
 
-        return $this->twig->render('Beast/details.html.twig');
+        return $this->twig->render('Beast/details.html.twig', [
+                'beast' => $beasts,
+                'movie' => $movies['movieTitle'],
+                'planet' => $planets['planetName']
+            ]
+        );
+
     }
-
 
     /**
      * @return string
@@ -48,9 +57,9 @@ class BeastController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function add()  : string
+    public function add(): string
     {
-      // TODO : A creation page where your can add a new beast.
+        // TODO : A creation page where your can add a new beast.
 
         return $this->twig->render('Beast/add.html.twig');
     }
@@ -62,9 +71,9 @@ class BeastController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function edit(int $id) : string
+    public function edit(int $id): string
     {
-      // TODO : An edition page where your can edit a beast.
+        // TODO : An edition page where your can edit a beast.
         return $this->twig->render('Beast/edit.html.twig');
     }
 }
