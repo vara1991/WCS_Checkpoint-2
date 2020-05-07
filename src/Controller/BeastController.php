@@ -34,12 +34,16 @@ class BeastController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function details(int $id)  : string
-    {
-      // TODO : A page which displays all details of a specific beasts.
+    //public function details(int $id)
+    //{
+        // TODO : A page which displays all details of a specific beasts.
+       // $beastManager = new beastManager();
+        //$beast = $beastManager->selectOnebeast($id);
 
-        return $this->twig->render('Beast/details.html.twig');
-    }
+
+       //return $this->twig->render('Beast/details.html.twig');
+        //['beast'=>$beast,]);
+    //}
 
 
     /**
@@ -50,7 +54,7 @@ class BeastController extends AbstractController
      */
     public function add()  : string
     {
-      // TODO : A creation page where your can add a new beast.
+        // TODO : A creation page where your can add a new beast.
 
         return $this->twig->render('Beast/add.html.twig');
     }
@@ -64,7 +68,7 @@ class BeastController extends AbstractController
      */
     public function edit(int $id) : string
     {
-      // TODO : An edition page where your can edit a beast.
+        // TODO : An edition page where your can edit a beast.
         return $this->twig->render('Beast/edit.html.twig');
     }
 }
