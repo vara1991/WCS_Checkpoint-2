@@ -26,7 +26,6 @@ class BeastController extends AbstractController
         return $this->twig->render('Beast/list.html.twig', ['beasts' => $beasts]);
     }
 
-
     /**
      * @param int $id
      * @return string
@@ -34,21 +33,20 @@ class BeastController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function details(int $id): string
+    public function details(int $id)  : string
     {
-        // TODO : A page which displays all details of a specific beasts.
         $beastsManager = new BeastManager();
-        $beasts = $beastsManager->selectOneById($id);
-        $movies = $beastsManager->movie();
-        $planets = $beastsManager->planet();
+        $beast = $beastsManager->selectOneById($id);
+
+        $beastsManager = new BeastManager();
+        $moviePlanet = $beastsManager->selectPlanetMovie($id);
 
         return $this->twig->render('Beast/details.html.twig', [
-                'beast' => $beasts,
-                'movie' => $movies['movieTitle'],
-                'planet' => $planets['planetName']
-            ]
-        );
+            'beast' => $beast,
+            'moviePlanet' => $moviePlanet
+        ]);
     }
+
 
     /**
      * @return string

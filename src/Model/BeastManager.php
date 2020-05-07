@@ -31,17 +31,17 @@ class BeastManager extends AbstractManager
         parent::__construct(self::TABLE);
     }
 
-    public function movie()
+    public function selectPlanetMovie(int $id)
     {
-        $statement = $this->pdo->prepare("SELECT (movie.title) AS movieTitle FROM movie JOIN beast ON movie.id = beast.id_movie;");
+        $statement = $this->pdo->prepare("
+        SELECT beast.id, movie.id as movie_id, movie.title as movie_title, planet.id as planet_id, planet.name as planet_name 
+        FROM $this->table 
+        JOIN movie ON movie.id=beast.id_movie
+        JOIN planet ON planet.id=beast.id_planet
+        WHERE beast.id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetch();
-    }
 
-    public function planet()
-    {
-        $statement = $this->pdo->prepare("SELECT (planet.name) AS planetName FROM planet JOIN beast ON planet.id = beast.id_planet;");
-        $statement->execute();
         return $statement->fetch();
     }
 
