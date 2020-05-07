@@ -56,7 +56,12 @@ class BeastController extends AbstractController
      */
     public function add()  : string
     {
-      // TODO : A creation page where your can add a new beast.
+        $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`planet, movie`) VALUES (:planet), (:movie)");
+        $statement->bindValue('planet', $item['planet'], \PDO::PARAM_STR);
+        $statement->bindValue('movie', $item['movie'], \PDO::PARAM_STR);
+
+
+        // TODO : A creation page where your can add a new beast.
 
         return $this->twig->render('Beast/add.html.twig');
     }
