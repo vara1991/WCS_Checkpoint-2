@@ -5,12 +5,16 @@ namespace App\Service;
 /**
  *  class Yodalizer
  */
+
+
 class Yodalizer
 {
-
     public static function yodalizeIt(string $str):string
     {
-        //TODO Write your code here,
-        //TODO And return what we are waiting for at the end...
+        $result = explode(' ', $str);
+        $reverse = array_reverse($result);
+        $word = implode(' ', $reverse);
+        $word = ucfirst($word);
+        return $word;
     }
 }

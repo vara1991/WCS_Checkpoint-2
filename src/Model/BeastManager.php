@@ -30,4 +30,34 @@ class BeastManager extends AbstractManager
     {
         parent::__construct(self::TABLE);
     }
+
+    public function selectPlanetMovie(int $id)
+    {
+        $statement = $this->pdo->prepare("
+        SELECT beast.id, beast.name, movie.id, beast.size, beast.area, beast.picture as movie_id, movie.title as movie_title, planet.id as planet_id, planet.name as planet_name  
+        FROM " . self::TABLE . " 
+        JOIN movie ON movie.id=beast.id_movie
+        JOIN planet ON planet.id=beast.id_planet
+        WHERE beast.id=:id"
+        );
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+    public function insert(array $beast): int
+    {
+        // prepared request
+        $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`name`, `picture`, `size`, `area`, id_movie`, `id_planet`) VALUES (:name, :picture, :size, :area, :movie, :planet)");
+        $statement->bindValue('name', $beast['name'], \PDO::PARAM_STR);
+        $statement->bindValue('picture', $beast['picture'], \PDO::PARAM_STR);
+        $statement->bindValue('size', $beast['size'], \PDO::PARAM_INT);
+        $statement->bindValue('area', $beast['area'], \PDO::PARAM_STR);
+        $statement->bindValue('movie', $beast['movie_id'], \PDO::PARAM_STR);
+        $statement->bindValue('planet', $beast['planet_id'], \PDO::PARAM_STR);
+
+        if ($statement->execute()) {
+            return (int)$this->pdo->lastInsertId();
+        }
+    }
 }
