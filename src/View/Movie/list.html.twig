@@ -7,7 +7,7 @@
 <div class="row">
     <ul class="list">
         {% for movie in movies %}
-            <li>>{{ movie.id }}. {{ movie.title }}</li>
+            <li><a href="/movie/details/{{ movie.id }}">{{ movie.title }}</a>  </li>
         {% else %}
             <li>Nothing to display</li>
         {% endfor %}

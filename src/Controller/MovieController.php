@@ -25,4 +25,31 @@ class MovieController extends AbstractController
         $movies = $mm->selectAll();
         return $this->twig->render('Movie/list.html.twig', ['movies' => $movies]);
     }
+
+    public function details(int $id): string
+    {
+        $movieManager = new MovieManager();
+        $movie = $movieManager->selectOneById($id);
+        return $this->twig->render('Movie/details.html.twig', ['movie' => $movie]);
+    }
+
+    public function edit(int $id): string
+    {
+        // TODO : An edition page where your can edit a beast.
+        $movieManager = new MovieManager();
+        $movie = $movieManager->selectOneById($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $item = [
+                'id' => $id,
+                'title' => $_POST['title'],
+            ];
+            $movieManager->update($item);
+            header('Location:/movie/details/' . $id);
+        }
+
+        return $this->twig->render('Movie/edit.html.twig', [
+            'movie' => $movie
+        ]);
+    }
 }
