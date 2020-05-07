@@ -7,10 +7,12 @@ namespace App\Service;
  */
 class Yodalizer
 {
-
     public static function yodalizeIt(string $str):string
     {
-        //TODO Write your code here,
-        //TODO And return what we are waiting for at the end...
+        return implode(' ', array_reverse(explode(' ', $str)));
     }
 }
+
+// EN DEHORS DE LA CLASSE
+$str = "I feel power here";
+echo ucfirst(yodalizeIt($str));

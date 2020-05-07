@@ -36,11 +36,13 @@ class BeastController extends AbstractController
      */
     public function details(int $id)  : string
     {
-      // TODO : A page which displays all details of a specific beasts.
+        $beastManager = new BeastManager();
+        $beast = $beastManager->selectOneBeast($id);
 
-        return $this->twig->render('Beast/details.html.twig');
+        return $this->twig->render('Beast/details.html.twig', [
+                'beast' => $beast
+            ]);
     }
-
 
     /**
      * @return string
@@ -48,15 +50,51 @@ class BeastController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function add()  : string
+    public function add() : string
     {
-      // TODO : A creation page where your can add a new beast.
+        $selectPlanets = new BeastManager();
+        $planets = $selectPlanets->selectAllPlanets();
 
-        return $this->twig->render('Beast/add.html.twig');
+        $selectMovies = new BeastManager();
+        $movies = $selectMovies->selectAllMovies();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST)) {
+                $beastManagerB = new BeastManager();
+                $beast = [
+                    'name' => $_POST['name'],
+                    'picture' => $_POST['picture'],
+                    'size' => $_POST['size'],
+                    'area' => $_POST['area'],
+                    'id_movie' => $_POST['movie'],
+                    'id_planet' => $_POST['planet']
+
+                ];
+                $beastManagerB->insertBeast($beast);
+
+                $beastManagerP = new BeastManager();
+                $planet = [
+                    'name' => $_POST['planet']
+                ];
+                $beastManagerP->insertPlanet($planet);
+
+                $beastManagerM = new BeastManager();
+                $movie = [
+                    'title' => $_POST['movie']
+                ];
+                $beastManagerM->insertMovie($movie);
+            }
+        }
+
+        return $this->twig->render('Beast/add.html.twig', [
+            'planets' => $planets,
+            'movies' => $movies
+        ]);
     }
 
 
     /**
+     * @param int $id
      * @return string
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -64,7 +102,18 @@ class BeastController extends AbstractController
      */
     public function edit(int $id) : string
     {
-      // TODO : An edition page where your can edit a beast.
-        return $this->twig->render('Beast/edit.html.twig');
+        // PARTIE EDIT ET UPDATE NON ACHEVEE
+        $beastManager = new BeastManager();
+        $beast = $beastManager->selectOneBeast($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            if (isset($_GET)) {
+                $planet['name'] = $_GET['planet_name'];
+                $beastManager->updateBeast($beast);
+            }
+        }
+        return $this->twig->render('Beast/details.html.twig', [
+                'beast' => $beast
+                ]);
     }
 }
