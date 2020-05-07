@@ -70,6 +70,9 @@ class BeastController extends AbstractController
      */
     public function edit(int $id) : string
     {
+        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `planet` = :planet WHERE id=:id");
+        $statement->bindValue('id', $item['id'], \PDO::PARAM_INT);
+        $statement->bindValue('planet', $item['planet'], \PDO::PARAM_STR);
       // TODO : An edition page where your can edit a beast.
         return $this->twig->render('Beast/edit.html.twig');
     }
