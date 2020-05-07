@@ -36,7 +36,13 @@ class BeastController extends AbstractController
      */
     public function details(int $id)  : string
     {
-      // TODO : A page which displays all details of a specific beasts.
+        $statement = $this->pdo->prepare("
+             SELECT *
+             FROM " . self::TABLE . " 
+             JOIN planet on planet.id=beast.planet.id
+             WHERE beast.id=:id");
+               $statement->bindValue('id', $id, \PDO::PARAM_INT);
+               $statement->execute();
 
         return $this->twig->render('Beast/details.html.twig');
     }
