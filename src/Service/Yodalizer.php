@@ -8,9 +8,16 @@ namespace App\Service;
 class Yodalizer
 {
 
-    public static function yodalizeIt(string $str):string
+    public $param="i feel fear here";
+
+    public static function yodalizeIt($str)
     {
         //TODO Write your code here,
         //TODO And return what we are waiting for at the end...
+
+        return ucfirst(implode(' ',array_reverse(explode(' ', $str))));
+
     }
+
+
 }
