@@ -20,7 +20,7 @@ class AppTest extends TestCase
     /**
      *
      */
-    const SERVER = 'http://localhost:8000';
+    const SERVER = 'http://localhost:8001';
 
     /**
      *

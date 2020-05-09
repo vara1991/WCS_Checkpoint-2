@@ -5,9 +5,11 @@
   <h1 class="col-12">All Planets</h1>
 </div>
 <div class="row">
-  <ul class="list">
-    <li>Planet id.   Planet Name</li>
-  </ul>
+    <ul class="list">
+        {% for planet in planets %}
+        <li><a href="/planet/details/{{planet.id}}">{{planet.name}}</a></li>
+        {% endfor %}
+    </ul>
 </div>
 <nav class="row">
   <a href="/movie/list">Check the movies</a>

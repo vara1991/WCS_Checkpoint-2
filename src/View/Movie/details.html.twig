@@ -1,0 +1,13 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <h1 class="col-12">{{movie.title}} </h1>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <a href="/movie/edit/{{movie.id}}" class="float-right">Edit</a>
+        </div>
+    </div>
+    <a href="/movie/list">Back</a>
+{% endblock %}
