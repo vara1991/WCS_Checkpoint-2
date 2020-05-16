@@ -4,6 +4,8 @@
 namespace App\Controller;
 
 use App\Model\BeastManager;
+use App\Model\MovieManager;
+use App\Model\PlanetManager;
 
 /**
  * Class BeastController
@@ -68,6 +70,19 @@ class BeastController extends AbstractController
     public function edit(int $id) : string
     {
       // TODO : An edition page where your can edit a beast.
-        return $this->twig->render('Beast/edit.html.twig');
+        $beastsManager = new BeastManager();
+        $beast = $beastsManager->selectOneById($id);
+
+        $moviesManager = new MovieManager();
+        $movies = $moviesManager->selectAll();
+
+        $planetsManager = new PlanetManager();
+        $planets = $planetsManager->selectAll();
+
+        return $this->twig->render('Beast/edit.html.twig',[
+            'beast' => $beast,
+            'movies' => $movies,
+            'planets' => $planets,
+        ]);
     }
 }
