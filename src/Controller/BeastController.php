@@ -41,7 +41,7 @@ class BeastController extends AbstractController
       // TODO : A page which displays all details of a specific beasts.
         $beastsManager = new BeastManager();
         $beast = $beastsManager->selectOneById($id);
-        return $this->twig->render('Beast/details.html.twig',[
+        return $this->twig->render('Beast/details.html.twig', [
             'beast' => $beast
         ]);
     }
@@ -57,7 +57,31 @@ class BeastController extends AbstractController
     {
       // TODO : A creation page where your can add a new beast.
 
-        return $this->twig->render('Beast/add.html.twig');
+        $beastManager = new BeastManager();
+
+        $movieManager = new MovieManager();
+        $movies = $movieManager->selectAll();
+
+        $planetManager = new PlanetManager();
+        $planets = $planetManager->selectAll();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $item = [
+                'name' => $_POST['name'],
+                'picture' => $_POST['picture'],
+                'area' => $_POST['area'],
+                'size' => $_POST['size'],
+                'planet' => $_POST['planet'],
+                'movie' => $_POST['movie'],
+            ];
+            $id = $beastManager->insert($item);
+            header('Location: /beast/details/'.$id);
+        }
+
+        return $this->twig->render('Beast/add.html.twig', [
+            'movies' => $movies,
+            'planets' => $planets,
+        ]);
     }
 
 
@@ -70,8 +94,8 @@ class BeastController extends AbstractController
     public function edit(int $id) : string
     {
       // TODO : An edition page where your can edit a beast.
-        $beastsManager = new BeastManager();
-        $beast = $beastsManager->selectOneById($id);
+        $beastManager = new BeastManager();
+        $beast = $beastManager->selectOneById($id);
 
         $movieManager = new MovieManager();
         $movies = $movieManager->selectAll();
@@ -79,7 +103,7 @@ class BeastController extends AbstractController
         $planetManager = new PlanetManager();
         $planets = $planetManager->selectAll();
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $item = [
                 'id' => $id,
                 'name' => $_POST['name'],
@@ -89,11 +113,11 @@ class BeastController extends AbstractController
                 'planet' => $_POST['planet'],
                 'movie' => $_POST['movie'],
             ];
-            $beastsManager->update($item);
+            $beastManager->update($item);
             header('Location: /beast/details/'.$id);
         }
 
-        return $this->twig->render('Beast/edit.html.twig',[
+        return $this->twig->render('Beast/edit.html.twig', [
             'beast' => $beast,
             'movies' => $movies,
             'planets' => $planets,
